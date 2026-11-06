@@ -22,7 +22,7 @@
 <main>
   <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
   <h1>TVM calculator</h1>
-  <p class="lead">Choose what to solve for, fill in the other four, and read the answer. It uses the cash-flow sign convention of RPN financial calculators: money you receive is positive, money you pay is negative.</p>
+  <p class="lead">Choose what to solve for, fill in the other four, and read the answer. It uses the cash-flow sign convention of RPN financial calculators such as the HP 12C: money you receive is positive, money you pay is negative.</p>
 
   <form class="tool" onsubmit="return false" aria-label="TVM calculator">
     <div class="chips"><span class="legendline">Try:</span>
@@ -77,6 +77,7 @@
   <h2>Frequently asked</h2>
   <div class="card faq">
     <p><strong>Why is my payment negative?</strong> It follows the cash-flow sign convention: money you receive is positive and money you pay is negative. The loan comes to you, so PV is positive. The payments leave you, so PMT is negative. The guide on the <a href="../guides/tvm-sign-convention.html">TVM sign convention</a> covers more cases.</p>
+    <p><strong>Does it match an HP 12C?</strong> It uses the same cash-flow signs and per-period rate, so the usual TVM problems should give the same answer. It is an independent tool, not made by or affiliated with HP. HP and 12C are trademarks of HP Inc. or its affiliates.</p>
     <p><strong>Is I/Y the yearly rate?</strong> No. Here it is the rate per period, the way classic RPN financial calculators work. For a monthly loan at 6.5% a year, enter 6.5 and press ÷12, which gives about 0.5417. N is also in periods: 30 years of monthly payments is 360.</p>
     <p><strong>Why did N come out as a whole number?</strong> A computed N is rounded up to the next whole period unless the fraction is under 0.005. The last payment, smaller than the others, still counts as a period. For example, 1,000 at 1% per period paying 30 needs 41 periods.</p>
     <p><strong>Why do I get "No solution"?</strong> Usually PV, PMT and FV all have the same sign, so money only flows one way and no rate or term can balance it. It also happens when the payment is smaller than the interest on the loan, so the balance never falls.</p>
