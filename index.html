@@ -3,40 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RPNLog support</title>
-<meta name="description" content="Support and privacy policy for RPNLog, the RPN financial calculator.">
-<style>
-  :root { color-scheme: light dark; --bg:#f3f5f9; --fg:#0b0d12; --muted:#5b6475; --accent:#2b5fd9; --card:#ffffff; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0b0d12; --fg:#ecf0f8; --muted:#9aa3b5; --accent:#6ea0ff; --card:#151922; } }
-  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  main { max-width:680px; margin:0 auto; padding:48px 16px 64px; }
-  h1 { font-size:34px; margin:0 0 4px; } h2 { margin-top:40px; font-size:22px; }
-  p.lead { color:var(--muted); margin-top:0; }
-  .card { background:var(--card); border-radius:14px; padding:16px 20px; margin:16px 0; }
-  a { color:var(--accent); }
-  .logo { width:72px; height:72px; border-radius:18px; display:block; margin-bottom:16px; }
-  footer { color:var(--muted); font-size:14px; margin-top:48px; }
-</style>
+<title>RPNLog: RPN financial calculator for Android, with free TVM tools</title>
+<meta name="description" content="RPNLog is an RPN financial calculator for Android: four-level stack, TVM, AMORT, NPV, IRR and bonds. No ads, no subscription. Free TVM calculator and amortization schedule on this site.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="RPNLog: RPN financial calculator for Android">
+<meta property="og:description" content="RPNLog is an RPN financial calculator for Android: four-level stack, TVM, AMORT, NPV, IRR and bonds. No ads, no subscription. Free TVM calculator and amortization schedule on this site.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"RPNLog: Financial Calculator","operatingSystem":"Android","applicationCategory":"FinanceApplication","description":"RPN financial calculator with the four-level stack in view, TVM, AMORT, NPV, IRR, bonds, depreciation and statistics. No ads, no subscription, no account.","downloadUrl":"https://play.google.com/store/apps/details?id=com.eastframe.rpnlog","installUrl":"https://play.google.com/store/apps/details?id=com.eastframe.rpnlog","image":"https://eastframe-technology.github.io/rpnlog-support/img/og.jpg","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"}}
+</script>
 </head>
 <body>
 <main>
-  <img class="logo" src="icon.png" alt="">
-  <h1>RPNLog</h1>
-  <p class="lead">RPN financial calculator. Free, with one optional unlock. No ads, no subscription, no account.</p>
+  <nav><a class="home" href="./"><img src="icon.png" alt="" width="24" height="24">RPNLog</a><a href="tools/tvm-calculator.html">TVM</a><a href="tools/amortization-schedule.html">Amortization</a><a href="#guides">Guides</a><a href="#support">Support</a></nav>
+  <div class="heroline">
+    <div>
+      <h1>An RPN financial calculator with the whole stack in view</h1>
+      <p class="lead">If you learned on a classic RPN financial calculator, your keystrokes work here: key a number, ENTER, the next one, then the operation. X, Y, Z, T and the five TVM registers stay on screen.</p>
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.8v18.4c0 .6.6.9 1.1.6l15.4-9.2c.5-.3.5-.9 0-1.2L5.1 2.2C4.6 1.9 4 2.2 4 2.8z"/></svg>Get it on Google Play</a>
+      <p class="note">Android. Free, with no ads: the RPN keyboard, TVM, AMORT, simple interest and dates. RPNLog Pro, one purchase paid once, adds cash flows, bonds, depreciation, statistics, the full schedule and CSV export.</p>
+    </div>
+    <div class="display" role="img" aria-label="A monthly payment worked out in RPNLog: 30 years at 6.5 percent on 450,000 gives a payment of minus 2,844.31.">
+      <p class="tape">30 12× &nbsp;6.5 12÷ &nbsp;450000 PV &nbsp;0 FV &nbsp;PMT</p>
+      <div class="row"><span>T</span><span>0.54</span></div>
+      <div class="row"><span>Z</span><span>450,000.00</span></div>
+      <div class="row"><span>Y</span><span>0.00</span></div>
+      <div class="x">−2,844.31</div>
+      <div class="regs"><div><b>n</b>360</div><div><b>i</b>0.54</div><div><b>PV</b>450k</div><div><b>PMT</b>−2,844</div><div><b>FV</b>0</div></div>
+    </div>
+  </div>
+
+  <div class="shots" aria-label="Screenshots">
+    <img src="img/shot-1.webp" width="190" height="422" alt="Calculator showing a payment of minus 2,844.31 with the stack and TVM registers on screen">
+    <img src="img/shot-2.webp" width="190" height="422" alt="An IRR of 11.67 percent from cash flows, with the keyboard" loading="lazy">
+    <img src="img/shot-3.webp" width="190" height="422" alt="Amortization schedule with interest, principal and balance per payment" loading="lazy">
+    <img src="img/shot-4.webp" width="190" height="422" alt="A date calculation showing the result and its weekday" loading="lazy">
+    <img src="img/shot-5.webp" width="190" height="422" alt="A bond price of 106.50 worked out from yield and coupon" loading="lazy">
+    <img src="img/shot-6.webp" width="190" height="422" alt="The calculator in its light theme with the whole stack in view" loading="lazy">
+  </div>
+
+  <h2>Free tools, nothing to install</h2>
+  <p>Need one answer right now? These run in your browser and use the same math as the app.</p>
+  <div class="toolrow">
+    <a href="tools/tvm-calculator.html"><strong>TVM calculator</strong><span>Solve for any of N, I/Y, PV, PMT or FV, with the cash-flow sign convention.</span></a>
+    <a href="tools/amortization-schedule.html"><strong>Amortization schedule</strong><span>Interest, principal and balance for every payment of a loan.</span></a>
+  </div>
+
+  <h2 id="guides">Guides</h2>
+  <ul>
+    <li><a href="guides/what-is-rpn.html">What is RPN, and how do you enter it?</a></li>
+    <li><a href="guides/tvm-sign-convention.html">The TVM sign convention: why your payment is negative</a></li>
+    <li><a href="guides/loan-payment-keystrokes.html">How to work out a loan on an RPN financial calculator</a></li>
+  </ul>
+
+  <h2>What it does</h2>
+  <div class="grid">
+    <div class="card"><h3>RPN keystrokes</h3>A four-level stack with LastX, ENTER, CHS, x⇄y and R↓. 20 storage registers with storage arithmetic. FIX 0 to 9. Everything is saved after every key.</div>
+    <div class="card"><h3>Time value of money</h3>n, i, PV, PMT and FV: solve for any of the five. BEGIN and END, 12× and 12÷ for monthly loans, and AMORT with each payment's interest rounded to the display.</div>
+    <div class="card"><h3>Everyday math and dates</h3>%, Δ% and %T, powers, roots, logs and rounding. Add days to a date with the weekday, and days between two dates, actual and 30/360. A tape of every number.</div>
+    <div class="card"><h3>Pro tools</h3>Cash flows with NPV and IRR, bond price and yield, three depreciation methods, two-variable statistics, a full amortization schedule, and CSV export.</div>
+  </div>
+
+  <h2>Where it helps</h2>
+  <ul>
+    <li><strong>Finance courses.</strong> Practice TVM problems with the registers in view, so you can see what is already stored. <a href="guides/tvm-sign-convention.html">Why the signs matter</a>.</li>
+    <li><strong>Real estate and lending.</strong> Payments, remaining balances and rates for a client, in a few keys. <a href="guides/loan-payment-keystrokes.html">The keystrokes</a>.</li>
+    <li><strong>Financial planning.</strong> Savings goals, retirement estimates and, with Pro, IRR on a set of cash flows.</li>
+    <li><strong>Anyone who already thinks in RPN.</strong> <a href="guides/what-is-rpn.html">New to it? Start here</a>.</li>
+  </ul>
+  <p class="caveat"><strong>Estimates, not financial advice.</strong> Check the figures against your lender's documents before you rely on them.</p>
+
+  <h2>Frequently asked</h2>
+  <div class="card faq">
+    <p><strong>Is there an equals key?</strong> No. RPNLog uses RPN, like the classic financial calculators: key a number, press ENTER, key the next number, then the operation. The quick guide (the ? button) shows the common keystrokes.</p>
+    <p><strong>My payment has the wrong sign.</strong> RPNLog follows the cash-flow sign convention: money you receive is positive, money you pay is negative. A loan you receive is a positive PV, so the payment comes out negative.</p>
+    <p><strong>n came out one higher than I expected.</strong> As on RPN financial calculators, a computed number of periods is rounded up to the next whole period (unless the fraction is under 0.005), because the last, smaller payment still counts as a period.</p>
+    <p><strong>How do I key in a date?</strong> As M.DDYYYY (for example 11.022026 for 2 November 2026), or D.MMYYYY after tapping the date chip on the display.</p>
+    <p><strong>What is free and what is in Pro?</strong> Free, with no ads: the RPN keyboard, math and percentages, TVM, AMORT, simple interest, dates, 20 registers and the tape. RPNLog Pro adds cash flows with NPV and IRR, bond price and yield, depreciation, two-variable statistics, the full amortization schedule and CSV export.</p>
+    <p><strong>Is there a subscription?</strong> No. RPNLog Pro is a single purchase. Restore it on a new phone from Settings.</p>
+  </div>
 
   <h2 id="support">Support</h2>
   <div class="card">
     <p>Questions, bugs, or feature requests: email <a href="mailto:contact@eastframe-technology.com">contact@eastframe-technology.com</a>. A human reads every message, usually the same day.</p>
     <p>A <a href="rpnlog-ios-demo.mp4">short captioned walkthrough</a> shows every feature.</p>
-  </div>
-
-  <h2>Frequently asked</h2>
-  <div class="card">
-    <p><strong>Is there an equals key?</strong> No. RPNLog uses RPN, like the classic financial calculators: key a number, press ENTER, key the next number, then the operation. The quick guide (the ? button) shows the common keystrokes.</p>
-    <p><strong>My payment has the wrong sign.</strong> RPNLog follows the cash-flow sign convention: money you receive is positive, money you pay is negative. A loan you receive is a positive PV, so the payment comes out negative.</p>
-    <p><strong>n came out one higher than I expected.</strong> As on RPN financial calculators, a computed number of periods is rounded up to the next whole period (unless the fraction is under 0.005), because the last, smaller payment still counts as a period.</p>
-    <p><strong>How do I key in a date?</strong> As M.DDYYYY (for example 11.022026 for 2 November 2026), or D.MMYYYY after tapping the date chip on the display.</p>
-    <p><strong>Is there a subscription?</strong> No. RPNLog Pro is a single purchase. Restore it on a new phone from Settings.</p>
   </div>
 
   <h2 id="privacy">Privacy policy</h2>
@@ -49,8 +104,7 @@
     <p><strong>Children.</strong> RPNLog is not directed at children and collects no personal information from anyone.</p>
     <p><strong>Changes.</strong> A new version of this policy will be published at this address with a new effective date.</p>
   </div>
-
-  <footer>© 2026 Eastframe Technology LLC</footer>
+  <footer>© 2026 Eastframe Technology LLC · <a href="privacy.html">Privacy policy</a> · <a href="#support">Support</a></footer>
 </main>
 </body>
 </html>

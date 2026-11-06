@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amortization schedule calculator: payment, interest and balance</title>
+<meta name="description" content="Free loan amortization schedule. Enter the amount, rate and term to see the payment and the interest, principal and balance for every payment, with yearly totals.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/tools/amortization-schedule.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Amortization schedule calculator">
+<meta property="og:description" content="Free loan amortization schedule. Enter the amount, rate and term to see the payment and the interest, principal and balance for every payment, with yearly totals.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/tools/amortization-schedule.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Amortization schedule calculator","description":"Loan payment plus interest, principal and balance for every payment, with yearly totals.","url":"https://eastframe-technology.github.io/rpnlog-support/tools/amortization-schedule.html","applicationCategory":"FinanceApplication","operatingSystem":"Any, runs in a web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why is the last balance not exactly zero?","acceptedAnswer":{"@type":"Answer","text":"The payment is rounded to the cent, and interest is rounded each period. Those small differences add up. On the example above, the last balance is −4.27, which means the final payment would be 4.27 smaller than the rest. Lenders settle this on the last payment."}},{"@type":"Question","name":"Why is so much of the early payment interest?","acceptedAnswer":{"@type":"Answer","text":"Interest is charged on the balance, and the balance is largest at the start. As it falls, less of each equal payment goes to interest and more goes to principal."}},{"@type":"Question","name":"Will this match my lender's schedule?","acceptedAnswer":{"@type":"Answer","text":"It often comes close. Each period's interest is rounded to the cent, the way lenders commonly do. But day-count rules, payment dates and how the rate compounds can vary, so your lender's statement is the one that counts."}},{"@type":"Question","name":"Does it work for biweekly payments?","acceptedAnswer":{"@type":"Answer","text":"Choose 26 payments a year. The yearly rate is divided by 26, so it treats each payment as one equal period. A real biweekly plan offered by a lender may work differently, so check its terms."}}]}]}
+</script>
+</head>
+<body>
+<main>
+  <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
+  <h1>Amortization schedule</h1>
+  <p class="lead">Enter the loan and see the payment, the total interest, and how each payment splits between interest and principal.</p>
+
+  <form class="tool" onsubmit="return false" aria-label="Amortization schedule">
+    <div class="fields">
+      <label class="field">Loan amount<input id="amount" value="450000" inputmode="decimal" autocomplete="off"></label>
+      <label class="field">Interest rate (% a year)<input id="rate" value="6.5" inputmode="decimal" autocomplete="off"></label>
+      <label class="field">Term (years)<input id="years" value="30" inputmode="decimal" autocomplete="off"></label>
+      <label class="field">Payments a year<select id="per"><option value="12" selected>12, monthly</option><option value="26">26, every two weeks</option><option value="24">24, twice a month</option><option value="52">52, weekly</option><option value="4">4, quarterly</option><option value="2">2, twice a year</option><option value="1">1, yearly</option></select></label>
+      <label class="field">Payments at the<select id="timing"><option value="end" selected>end of each period</option><option value="begin">start of each period</option></select></label>
+    </div>
+    <p class="msg" id="msg" role="alert" hidden></p>
+    <div id="out" aria-live="polite">
+      <div class="summary">
+        <div><b id="s-pmt"></b><span>Payment</span></div>
+        <div><b id="s-int"></b><span>Total interest</span></div>
+        <div><b id="s-paid"></b><span>Total of all payments</span></div>
+        <div><b id="s-last"></b><span>Last balance</span></div>
+      </div>
+      <p class="note" id="s-note"></p>
+      <details open><summary>Year by year</summary>
+        <div class="schedule" style="max-height:300px"><table><thead><tr><th class="n">Year</th><th class="n">Interest</th><th class="n">Principal</th><th class="n">Balance</th></tr></thead><tbody id="yrows"></tbody></table></div>
+      </details>
+      <details><summary>Every payment</summary>
+        <div class="schedule"><table><thead><tr><th class="n">#</th><th class="n">Payment</th><th class="n">Interest</th><th class="n">Principal</th><th class="n">Balance</th></tr></thead><tbody id="rows"></tbody></table></div>
+      </details>
+    </div>
+    <noscript><p class="msg">This schedule needs JavaScript. The method below works on any calculator.</p></noscript>
+  </form>
+  <p class="note">Everything is worked out in your browser. The numbers you type never leave this page.</p>
+  <p class="applink">In RPNLog, AMORT is free for any block of payments. The full schedule table and CSV export are part of RPNLog Pro. <a href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog">RPNLog on Google Play</a>.</p>
+  <p class="caveat"><strong>Estimates, not financial advice.</strong> Check the figures against your lender's documents before you rely on them.</p>
+
+  <h2>How it is calculated</h2>
+  <p>First the payment, from the standard loan formula. It is the amount that takes the balance to zero after the last period:</p>
+  <pre class="formula">payment = balance × i ÷ (1 − (1 + i)^−n)</pre>
+  <p class="note">i is the yearly rate ÷ payments a year, as a decimal. n is the number of payments. For payments at the start of each period, divide the result by (1 + i).</p>
+  <p>Then, for each payment in turn:</p>
+  <pre class="formula">interest  = balance × i, rounded to the cent
+principal = payment − interest
+balance   = balance − principal</pre>
+  <p>With payments at the start of each period, the first payment has no interest in it, since no time has passed yet.</p>
+
+  <h2>Worked example</h2>
+  <p>450,000 at 6.5% a year over 30 years, paid monthly.</p>
+  <ol>
+    <li>The monthly rate is 6.5% ÷ 12 = 0.54167%, and there are 360 payments. The payment is <strong>2,844.31</strong>.</li>
+    <li>First month's interest: 450,000 × 0.0054167 = 2,437.50. The rest, 406.81, goes to principal. The balance becomes 449,593.19.</li>
+    <li>After the first 12 payments, interest paid is 29,101.89, principal paid is 5,029.83, and the balance is 444,970.17.</li>
+    <li>Over the whole loan, total interest is <strong>573,947.33</strong>.</li>
+  </ol>
+
+  <h2>Limits</h2>
+  <ul>
+    <li>A fixed rate and equal payments only. It does not model adjustable rates, extra payments or interest-only periods.</li>
+    <li>The rate is divided evenly across the payments in a year, compounding once per payment. Some mortgages, including many in Canada, compound differently, so the payment can differ a little.</li>
+    <li>Principal and interest only. It leaves out taxes, insurance and fees.</li>
+    <li>Up to 1,200 payments, the same limit as the app's schedule.</li>
+    <li>Amounts are shown as positive here, for reading. The <a href="tvm-calculator.html">TVM calculator</a> shows payments as negative, following the sign convention.</li>
+  </ul>
+
+  <h2>Frequently asked</h2>
+  <div class="card faq">
+    <p><strong>Why is the last balance not exactly zero?</strong> The payment is rounded to the cent, and interest is rounded each period. Those small differences add up. On the example above, the last balance is −4.27, which means the final payment would be 4.27 smaller than the rest. Lenders settle this on the last payment.</p>
+    <p><strong>Why is so much of the early payment interest?</strong> Interest is charged on the balance, and the balance is largest at the start. As it falls, less of each equal payment goes to interest and more goes to principal.</p>
+    <p><strong>Will this match my lender's schedule?</strong> It often comes close. Each period's interest is rounded to the cent, the way lenders commonly do. But day-count rules, payment dates and how the rate compounds can vary, so your lender's statement is the one that counts.</p>
+    <p><strong>Does it work for biweekly payments?</strong> Choose 26 payments a year. The yearly rate is divided by 26, so it treats each payment as one equal period. A real biweekly plan offered by a lender may work differently, so check its terms.</p>
+  </div>
+  <footer>© 2026 Eastframe Technology LLC · <a href="../privacy.html">Privacy policy</a> · <a href="../#support">Support</a></footer>
+</main>
+<script src="finance.js"></script>
+<script src="amortization-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVM calculator: solve for N, I/Y, PV, PMT or FV</title>
+<meta name="description" content="Free time value of money calculator. Solve for any of N, I/Y, PV, PMT or FV, with BEGIN and END and the cash-flow sign convention used on RPN financial calculators. Formula and worked examples.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/tools/tvm-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TVM calculator: solve for N, I/Y, PV, PMT or FV">
+<meta property="og:description" content="Free time value of money calculator. Solve for any of N, I/Y, PV, PMT or FV, with BEGIN and END and the cash-flow sign convention used on RPN financial calculators. Formula and worked examples.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/tools/tvm-calculator.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"TVM calculator","description":"Time value of money calculator that solves for N, I/Y, PV, PMT or FV with the cash-flow sign convention.","url":"https://eastframe-technology.github.io/rpnlog-support/tools/tvm-calculator.html","applicationCategory":"FinanceApplication","operatingSystem":"Any, runs in a web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why is my payment negative?","acceptedAnswer":{"@type":"Answer","text":"It follows the cash-flow sign convention: money you receive is positive and money you pay is negative. The loan comes to you, so PV is positive. The payments leave you, so PMT is negative. The guide on the TVM sign convention covers more cases."}},{"@type":"Question","name":"Is I/Y the yearly rate?","acceptedAnswer":{"@type":"Answer","text":"No. Here it is the rate per period, the way classic RPN financial calculators work. For a monthly loan at 6.5% a year, enter 6.5 and press ÷12, which gives about 0.5417. N is also in periods: 30 years of monthly payments is 360."}},{"@type":"Question","name":"Why did N come out as a whole number?","acceptedAnswer":{"@type":"Answer","text":"A computed N is rounded up to the next whole period unless the fraction is under 0.005. The last payment, smaller than the others, still counts as a period. For example, 1,000 at 1% per period paying 30 needs 41 periods."}},{"@type":"Question","name":"Why do I get \"No solution\"?","acceptedAnswer":{"@type":"Answer","text":"Usually PV, PMT and FV all have the same sign, so money only flows one way and no rate or term can balance it. It also happens when the payment is smaller than the interest on the loan, so the balance never falls."}},{"@type":"Question","name":"What is the difference between END and BEGIN?","acceptedAnswer":{"@type":"Answer","text":"END means payments arrive at the end of each period, as on most loans. BEGIN means at the start, as on many leases and rents. A BEGIN payment is the END payment divided by (1 + rate per period)."}}]}]}
+</script>
+</head>
+<body>
+<main>
+  <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
+  <h1>TVM calculator</h1>
+  <p class="lead">Choose what to solve for, fill in the other four, and read the answer. It uses the cash-flow sign convention of RPN financial calculators: money you receive is positive, money you pay is negative.</p>
+
+  <form class="tool" onsubmit="return false" aria-label="TVM calculator">
+    <div class="chips"><span class="legendline">Try:</span>
+      <button type="button" class="chip" data-example="mortgage">Mortgage payment</button>
+      <button type="button" class="chip" data-example="car">Car loan</button>
+      <button type="button" class="chip" data-example="savings">Savings</button>
+      <button type="button" class="chip" data-example="rate">Find the rate</button>
+      <button type="button" class="chip" data-example="term">Find the term</button>
+    </div>
+    <fieldset style="border:0;padding:0;margin:0"><legend class="legendline">Solve for</legend>
+      <div class="solve"><label><input type="radio" name="solve" value="n"><span>N</span></label><label><input type="radio" name="solve" value="i"><span>I/Y</span></label><label><input type="radio" name="solve" value="pv"><span>PV</span></label><label><input type="radio" name="solve" value="pmt" checked><span>PMT</span></label><label><input type="radio" name="solve" value="fv"><span>FV</span></label></div>
+    </fieldset>
+      <div class="reg"><label for="n">N<small>periods</small></label><input id="n" inputmode="decimal" autocomplete="off"><div class="keybtns"><button type="button" class="key" id="x12" title="Multiply by 12: years to months" aria-label="Multiply N by 12">×12</button><button type="button" class="key" id="chs-n" aria-label="Change the sign of N">±</button></div></div>
+      <div class="reg"><label for="i">I/Y<small>% per period</small></label><input id="i" inputmode="decimal" autocomplete="off"><div class="keybtns"><button type="button" class="key" id="d12" title="Divide by 12: yearly rate to monthly" aria-label="Divide I/Y by 12">÷12</button><button type="button" class="key" id="chs-i" aria-label="Change the sign of I/Y">±</button></div></div>
+      <div class="reg"><label for="pv">PV<small>today</small></label><input id="pv" inputmode="decimal" autocomplete="off"><div class="keybtns"><button type="button" class="key" id="chs-pv" aria-label="Change the sign of PV">±</button></div></div>
+      <div class="reg"><label for="pmt">PMT<small>each period</small></label><input id="pmt" inputmode="decimal" autocomplete="off"><div class="keybtns"><button type="button" class="key" id="chs-pmt" aria-label="Change the sign of PMT">±</button></div></div>
+      <div class="reg"><label for="fv">FV<small>at the end</small></label><input id="fv" inputmode="decimal" autocomplete="off"><div class="keybtns"><button type="button" class="key" id="chs-fv" aria-label="Change the sign of FV">±</button></div></div>
+    <p class="legendline" style="margin:12px 0 0">Payments at the:
+      <label><input type="radio" name="timing" value="end" checked style="width:auto"> end (END)</label> &nbsp;
+      <label><input type="radio" name="timing" value="begin" style="width:auto"> start (BEGIN)</label></p>
+    <p class="msg" id="msg" role="alert" hidden></p>
+    <div class="answer" id="answer" aria-live="polite"><div class="big" id="ans-big"></div><p id="ans-text"></p></div>
+    <noscript><p class="msg">This calculator needs JavaScript. The equation below works on any calculator.</p></noscript>
+  </form>
+  <p class="note">Everything is worked out in your browser. The numbers you type never leave this page.</p>
+  <p class="applink">RPNLog does this with RPN keystrokes on your phone, free and offline, with the five registers always on screen. <a href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog">RPNLog on Google Play</a>.</p>
+  <p class="caveat"><strong>Estimates, not financial advice.</strong> Check the figures against your lender's documents before you rely on them.</p>
+
+  <h2>How it is calculated</h2>
+  <p>The five values must balance. Every TVM problem is this one equation, solved for whichever value is missing:</p>
+  <pre class="formula">PV × (1 + i)^n + PMT × (1 + i × S) × ((1 + i)^n − 1) ÷ i + FV = 0</pre>
+  <p class="note">i is the rate per period as a decimal (0.5% is 0.005). S is 0 for END and 1 for BEGIN. When i is 0, the middle part is simply PMT × n.</p>
+  <p>PV, PMT and FV have direct formulas. N has one too, using logarithms, and is then rounded up to a whole period. I/Y has no direct formula once there is a payment, so it is found by searching for the rate that makes the equation balance, starting with the sign change closest to zero.</p>
+
+  <h2>Worked examples</h2>
+  <h3>Monthly mortgage payment</h3>
+  <p>450,000 borrowed for 30 years at 6.5% a year, paid monthly: N = 360, I/Y = 6.5 ÷ 12 = 0.5417, PV = 450,000, FV = 0. The answer is <strong>PMT = −2,844.31</strong>.</p>
+  <h3>Savings goal</h3>
+  <p>100 a month for 10 years at 0.5% a month, from nothing: N = 120, I/Y = 0.5, PV = 0, PMT = −100. The answer is <strong>FV = 16,387.93</strong>. You pay in, so PMT is negative. You collect at the end, so FV is positive.</p>
+  <h3>Finding a rate</h3>
+  <p>A loan of 30,000 repaid at 600 a month for 5 years: N = 60, PV = 30,000, PMT = −600, FV = 0. The answer is <strong>I/Y = 0.6183%</strong> a month, about 7.42% a year. Note that this is the rate per month times 12, not a compounded yearly rate.</p>
+
+  <h2>Limits</h2>
+  <ul>
+    <li>The rate stays the same for all periods, and it compounds once per period. A rate that compounds on a different schedule needs converting first.</li>
+    <li>Payments are all equal and evenly spaced. For uneven payments you need cash flows and IRR, which is in RPNLog Pro.</li>
+    <li>It does not include fees, taxes or insurance, so a lender's APR or total monthly bill can differ.</li>
+    <li>If a problem has more than one rate that fits, it returns the one closest to zero.</li>
+    <li>Rates from about −99.99% to 10,000% per period are searched.</li>
+  </ul>
+
+  <h2>Frequently asked</h2>
+  <div class="card faq">
+    <p><strong>Why is my payment negative?</strong> It follows the cash-flow sign convention: money you receive is positive and money you pay is negative. The loan comes to you, so PV is positive. The payments leave you, so PMT is negative. The guide on the <a href="../guides/tvm-sign-convention.html">TVM sign convention</a> covers more cases.</p>
+    <p><strong>Is I/Y the yearly rate?</strong> No. Here it is the rate per period, the way classic RPN financial calculators work. For a monthly loan at 6.5% a year, enter 6.5 and press ÷12, which gives about 0.5417. N is also in periods: 30 years of monthly payments is 360.</p>
+    <p><strong>Why did N come out as a whole number?</strong> A computed N is rounded up to the next whole period unless the fraction is under 0.005. The last payment, smaller than the others, still counts as a period. For example, 1,000 at 1% per period paying 30 needs 41 periods.</p>
+    <p><strong>Why do I get "No solution"?</strong> Usually PV, PMT and FV all have the same sign, so money only flows one way and no rate or term can balance it. It also happens when the payment is smaller than the interest on the loan, so the balance never falls.</p>
+    <p><strong>What is the difference between END and BEGIN?</strong> END means payments arrive at the end of each period, as on most loans. BEGIN means at the start, as on many leases and rents. A BEGIN payment is the END payment divided by (1 + rate per period).</p>
+  </div>
+  <footer>© 2026 Eastframe Technology LLC · <a href="../privacy.html">Privacy policy</a> · <a href="../#support">Support</a></footer>
+</main>
+<script src="finance.js"></script>
+<script src="tvm-page.js"></script>
+</body>
+</html>

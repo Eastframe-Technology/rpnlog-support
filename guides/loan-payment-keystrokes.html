@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to calculate a loan payment on an RPN financial calculator</title>
+<meta name="description" content="Keystrokes for a monthly loan payment on an RPN financial calculator, then the rate, the term and the balance after a year with AMORT, with a worked 450,000 mortgage.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/guides/loan-payment-keystrokes.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to work out a loan on an RPN financial calculator">
+<meta property="og:description" content="Keystrokes for a monthly loan payment on an RPN financial calculator, then the rate, the term and the balance after a year with AMORT, with a worked 450,000 mortgage.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/guides/loan-payment-keystrokes.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"How to work out a loan on an RPN financial calculator","description":"Keystrokes for a monthly loan payment on an RPN financial calculator, then the rate, the term and the balance after a year with AMORT, with a worked 450,000 mortgage.","datePublished":"2026-11-06","author":{"@type":"Organization","name":"Eastframe Technology LLC"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"},"image":"https://eastframe-technology.github.io/rpnlog-support/img/og.jpg","mainEntityOfPage":"https://eastframe-technology.github.io/rpnlog-support/guides/loan-payment-keystrokes.html"}
+</script>
+</head>
+<body>
+<main>
+  <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
+  <h1>How to work out a loan on an RPN financial calculator</h1>
+  <p class="lead">To get a monthly payment, store the term in n, the rate in i and the loan in PV, enter 0 in FV, and press PMT. Here are the keystrokes for that, then for working backwards to the rate or term, and for finding the balance with AMORT.</p>
+
+  <p>The examples use a loan of 450,000 at 6.5% a year over 30 years, and RPNLog's keys. Keystrokes on other RPN financial calculators are often the same, but check the labels on yours.</p>
+
+  <h2>How the TVM keys behave</h2>
+  <p>Each of n, i, PV, PMT and FV does two jobs. Key a number and press it, and the number is stored. Press it with no new number, and it calculates that value from the other four. That is the whole method: store four, calculate one.</p>
+
+  <h2>Start clean</h2>
+  <p>The registers keep their values, so a leftover FV from the last problem will change your answer. Clear them first with 2nd ÷ (CL FIN). This clears the five registers, and any cash flows, without touching the stack. BEG or END stays as it was.</p>
+
+  <h2>Find the payment</h2>
+  <div class="keys">30 2nd n &nbsp; 6.5 2nd i &nbsp; 450000 PV &nbsp; 0 FV &nbsp; PMT <b>→ −2,844.31</b></div>
+  <ul>
+    <li><strong>2nd n</strong> is 12×. It multiplies the years by 12 and stores 360 in n.</li>
+    <li><strong>2nd i</strong> is 12÷. It divides the yearly rate by 12 and stores about 0.5417 in i.</li>
+    <li><strong>The answer is negative</strong> because the payment leaves your pocket. See <a href="tvm-sign-convention.html">the sign convention</a>.</li>
+  </ul>
+  <p>Since the registers keep their values, you can try a different loan by changing just one. Key a new amount, press PV, then PMT.</p>
+
+  <h2>Find the rate</h2>
+  <p>You know the loan and the payment, and want the rate. Key the payment with CHS, since you pay it:</p>
+  <div class="keys">360 n &nbsp; 450000 PV &nbsp; 2844.31 CHS PMT &nbsp; 0 FV &nbsp; i <b>→ 0.5417</b> &nbsp; 12 × <b>→ 6.50</b></div>
+  <p>The result in i is per month. Multiplying by 12 gives the yearly nominal rate.</p>
+
+  <h2>Find the term</h2>
+  <p>How long does the loan last if you pay 3,500 a month instead?</p>
+  <div class="keys">6.5 2nd i &nbsp; 450000 PV &nbsp; 3500 CHS PMT &nbsp; 0 FV &nbsp; n <b>→ 221</b></div>
+  <p>That is 221 months, about 18 years and 5 months. A computed n is rounded up to a whole payment, so the last one is smaller than the others.</p>
+
+  <h2>Find the balance with AMORT</h2>
+  <p>AMORT splits a block of payments into interest and principal, and updates the balance. Start from the payment above. Set n to 0, since no payments have been made yet, then ask for 12 payments:</p>
+  <div class="keys">0 n &nbsp; 12 AMORT <b>→ −29,101.89</b> (interest) &nbsp; x⇄y <b>→ −5,029.83</b> (principal)</div>
+  <p>Tap the PV register under the display to see the new balance, 444,970.17. AMORT has moved n to 12 and lowered PV. So the next block picks up where this one ended:</p>
+  <div class="keys">12 AMORT <b>→ −28,765.05</b> (interest)</div>
+  <p>Now PV shows 439,603.50, the balance after two years, and n shows 24.</p>
+  <p>Two things to know. AMORT changes PV and n, so re-enter them before starting a new calculation on the same loan. And each period's interest is rounded to the display setting, as lenders round to the cent, so keep the display at FIX 2 for money. A different FIX setting gives slightly different totals.</p>
+
+  <h2>Payments at the start of the period</h2>
+  <p>Leases and rents often have payments at the start of each period. Tap the END chip on the display so it reads BEG before you solve. A BEGIN payment comes out smaller by a factor of (1 + the rate per period): a 25,000 loan over 48 months at 7.5% a year is −604.47 with END and −600.72 with BEG. The first AMORT payment in BEGIN mode has no interest in it.</p>
+
+  <h2>Check your work without a calculator</h2>
+  <p>The free <a href="../tools/tvm-calculator.html">TVM calculator</a> and <a href="../tools/amortization-schedule.html">amortization schedule</a> on this site use the same math as RPNLog. In the app, TVM and AMORT are free, and the full schedule table with CSV export is part of RPNLog Pro. Results are estimates, not financial advice, and your lender's documents are the ones that count.</p>
+  <div class="card"><strong>RPNLog</strong> is an RPN financial calculator for Android with no ads and no subscription. <a href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog">Get it on Google Play</a>.</div>
+  <footer>© 2026 Eastframe Technology LLC · <a href="../privacy.html">Privacy policy</a> · <a href="../#support">Support</a></footer>
+</main>
+</body>
+</html>

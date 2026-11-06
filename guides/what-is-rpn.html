@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is RPN and how do you enter it? A short guide to Reverse Polish Notation</title>
+<meta name="description" content="RPN puts the numbers first and the operation last, with no equals key and no brackets. How the stack works, step-by-step keystrokes, and the mistakes everyone makes at first.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/guides/what-is-rpn.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is RPN, and how do you enter it?">
+<meta property="og:description" content="RPN puts the numbers first and the operation last, with no equals key and no brackets. How the stack works, step-by-step keystrokes, and the mistakes everyone makes at first.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/guides/what-is-rpn.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"What is RPN, and how do you enter it?","description":"RPN puts the numbers first and the operation last, with no equals key and no brackets. How the stack works, step-by-step keystrokes, and the mistakes everyone makes at first.","datePublished":"2026-11-06","author":{"@type":"Organization","name":"Eastframe Technology LLC"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"},"image":"https://eastframe-technology.github.io/rpnlog-support/img/og.jpg","mainEntityOfPage":"https://eastframe-technology.github.io/rpnlog-support/guides/what-is-rpn.html"}
+</script>
+</head>
+<body>
+<main>
+  <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
+  <h1>What is RPN, and how do you enter it?</h1>
+  <p class="lead">RPN, or Reverse Polish Notation, puts the numbers first and the operation last. Instead of 3 + 4 =, you key 3 ENTER 4 +. There is no equals key and there are no brackets, because the calculator keeps your numbers on a stack.</p>
+
+  <p>The name comes from the Polish notation of the logician Jan Łukasiewicz, which wrote the operator before its numbers. RPN reverses that, so the operator comes after.</p>
+
+  <h2>The stack</h2>
+  <p>An RPN financial calculator holds four numbers, called X, Y, Z and T. You can think of them as a pile, with X at the bottom. X is the one on the display and the one you are typing into. A two-number operation like + uses X and Y, puts the result in X, and drops everything else down one level.</p>
+  <p>ENTER is what separates two numbers. It copies X up into Y, and the next number you key replaces X.</p>
+
+  <h2>Your first sum, key by key</h2>
+  <p>Here is (3 + 4) × (5 + 6), watching the stack. T stays at 0 all the way through, so it is left out.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Key</th><th class="n">Z</th><th class="n">Y</th><th class="n">X</th></tr>
+    <tr><td class="mono">3</td><td class="n">0</td><td class="n">0</td><td class="n"><strong>3</strong></td></tr>
+    <tr><td class="mono">ENTER</td><td class="n">0</td><td class="n">3</td><td class="n"><strong>3</strong></td></tr>
+    <tr><td class="mono">4</td><td class="n">0</td><td class="n">3</td><td class="n"><strong>4</strong></td></tr>
+    <tr><td class="mono">+</td><td class="n">0</td><td class="n">0</td><td class="n"><strong>7</strong></td></tr>
+    <tr><td class="mono">5</td><td class="n">0</td><td class="n">7</td><td class="n"><strong>5</strong></td></tr>
+    <tr><td class="mono">ENTER</td><td class="n">7</td><td class="n">5</td><td class="n"><strong>5</strong></td></tr>
+    <tr><td class="mono">6</td><td class="n">7</td><td class="n">5</td><td class="n"><strong>6</strong></td></tr>
+    <tr><td class="mono">+</td><td class="n">0</td><td class="n">7</td><td class="n"><strong>11</strong></td></tr>
+    <tr><td class="mono">×</td><td class="n">0</td><td class="n">0</td><td class="n"><strong>77</strong></td></tr>
+  </table></div>
+  <p>Notice what happened after the first +. The 7 stays in X, and when you key 5 it moves up on its own. You did not have to write it down or use brackets. The last × finds the 7 and the 11 already waiting. That is nine key presses, against twelve on a calculator with brackets and an equals key.</p>
+  <p>For a chain of steps you often need only one ENTER. For 250 ÷ 4 × 1.2 − 15:</p>
+  <div class="keys">250 ENTER 4 ÷ 1.2 × 15 − <b>→ 60</b></div>
+
+  <h2>The keys that make it work</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Key</th><th>What it does</th></tr>
+    <tr><td class="mono">ENTER</td><td>Separates two numbers. Pressing it again copies X further up the stack.</td></tr>
+    <tr><td class="mono">CHS</td><td>Changes the sign of X. This is how you key a negative number, since − is subtraction: <code>100 CHS</code> is −100.</td></tr>
+    <tr><td class="mono">x⇄y</td><td>Swaps X and Y. Useful when you entered two numbers the wrong way round for a division.</td></tr>
+    <tr><td class="mono">R↓</td><td>Rolls the stack down one level, so you can see what is in Y, Z and T.</td></tr>
+    <tr><td class="mono">LSTx</td><td>Brings back the last X used by an operation, which undoes a wrong operation or reuses a number.</td></tr>
+    <tr><td class="mono">CLx</td><td>Clears X to 0, so you can re-key it.</td></tr>
+  </table></div>
+
+  <h2>The mistakes everyone makes</h2>
+  <ul>
+    <li><strong>Pressing ENTER before the operation.</strong> 3 ENTER 4 ENTER + gives 8, not 7, because the second ENTER copied 4 into Y and the + used both 4s. ENTER goes between numbers, and the operation itself finishes the entry.</li>
+    <li><strong>Using − for a negative number.</strong> It subtracts instead. Use CHS.</li>
+    <li><strong>Expecting an answer to wait for equals.</strong> The operation runs the moment you press it.</li>
+    <li><strong>Getting the order backwards.</strong> For division and subtraction, the first number you key is the one being divided or subtracted from. 12 ENTER 3 ÷ is 4.</li>
+  </ul>
+
+  <h2>Percentages</h2>
+  <p>The % key works out a percentage of Y and leaves Y in place, so the next operation can use it. To add 15% to 200:</p>
+  <div class="keys">200 ENTER 15 % <b>→ 30</b> &nbsp; + <b>→ 230</b></div>
+
+  <h2>Why people stay with it</h2>
+  <p>There is nothing to parse in your head. You work a formula from the inside out, one piece at a time, and every intermediate result is visible as you go. If you got something wrong, you see it at that step and not at the end. It takes some practice at first, mostly to stop looking for the equals key.</p>
+
+  <h2>Trying it</h2>
+  <p>RPNLog is an RPN financial calculator for Android. X, Y, Z and T are on the display the whole time, which helps a lot while you are learning, and the full RPN keyboard is free. The ? button opens a quick guide with common keystrokes, and a tape records every number and result. LSTx is the 2nd function above RCL, and CLx is the 2nd function above the backspace key.</p>
+  <div class="card"><strong>RPNLog</strong> is an RPN financial calculator for Android with no ads and no subscription. <a href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog">Get it on Google Play</a>.</div>
+  <footer>© 2026 Eastframe Technology LLC · <a href="../privacy.html">Privacy policy</a> · <a href="../#support">Support</a></footer>
+</main>
+</body>
+</html>

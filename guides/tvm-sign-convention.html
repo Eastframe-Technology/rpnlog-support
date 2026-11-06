@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVM sign convention explained: why your payment comes out negative</title>
+<meta name="description" content="On RPN financial calculators, money you receive is positive and money you pay is negative. How to set the signs of PV, PMT and FV for loans, savings, leases and investments.">
+<link rel="canonical" href="https://eastframe-technology.github.io/rpnlog-support/guides/tvm-sign-convention.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The TVM sign convention: why your payment is negative">
+<meta property="og:description" content="On RPN financial calculators, money you receive is positive and money you pay is negative. How to set the signs of PV, PMT and FV for loans, savings, leases and investments.">
+<meta property="og:image" content="https://eastframe-technology.github.io/rpnlog-support/img/og.jpg">
+<meta property="og:url" content="https://eastframe-technology.github.io/rpnlog-support/guides/tvm-sign-convention.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"The TVM sign convention: why your payment is negative","description":"On RPN financial calculators, money you receive is positive and money you pay is negative. How to set the signs of PV, PMT and FV for loans, savings, leases and investments.","datePublished":"2026-11-06","author":{"@type":"Organization","name":"Eastframe Technology LLC"},"publisher":{"@type":"Organization","name":"Eastframe Technology LLC"},"image":"https://eastframe-technology.github.io/rpnlog-support/img/og.jpg","mainEntityOfPage":"https://eastframe-technology.github.io/rpnlog-support/guides/tvm-sign-convention.html"}
+</script>
+</head>
+<body>
+<main>
+  <nav><a class="home" href="../"><img src="../icon.png" alt="" width="24" height="24">RPNLog</a><a href="../tools/tvm-calculator.html">TVM</a><a href="../tools/amortization-schedule.html">Amortization</a><a href="../#guides">Guides</a><a href="../#support">Support</a></nav>
+  <h1>The TVM sign convention: why your payment is negative</h1>
+  <p class="lead">On a TVM calculator, money you receive is positive and money you pay is negative. A loan comes to you, so PV is positive. Your payments go out, so PMT is negative. Nothing is wrong with your answer: the sign says which way the money moves.</p>
+
+  <h2>Pick one point of view</h2>
+  <p>Stand in one person's shoes and stay there for the whole problem. Every value is then money going into or out of that person's pocket.</p>
+  <ul>
+    <li><strong>Into your pocket: positive.</strong> A loan you receive, a final payout, rent you collect.</li>
+    <li><strong>Out of your pocket: negative.</strong> Loan payments, a deposit, the price of an investment.</li>
+  </ul>
+  <p>Either side of a deal gives the same numbers with the signs flipped. A borrower has PV = +450,000 and PMT = −2,844.31. The lender has PV = −450,000 and PMT = +2,844.31. Both are right.</p>
+
+  <h2>Why the math needs it</h2>
+  <p>All five TVM values live in one equation, and the equation only balances to zero:</p>
+  <pre class="formula">PV × (1 + i)^n + PMT × (1 + i × S) × ((1 + i)^n − 1) ÷ i + FV = 0</pre>
+  <p>Read it as: everything that flows in and out, carried forward to the end date, must add up to nothing. If all the values were positive, they could never add up to zero. So at least one must be positive and at least one negative. That is the whole reason for the convention.</p>
+
+  <h2>Signs for common problems</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Problem</th><th>PV</th><th>PMT</th><th>FV</th></tr>
+    <tr><td>Loan you pay off fully</td><td>+ received</td><td>− paid</td><td>0</td></tr>
+    <tr><td>Saving from nothing</td><td>0</td><td>− paid in</td><td>+ collected</td></tr>
+    <tr><td>Saving with a starting deposit</td><td>− paid in</td><td>− paid in</td><td>+ collected</td></tr>
+    <tr><td>Lump sum that grows</td><td>− paid in</td><td>0</td><td>+ collected</td></tr>
+    <tr><td>Lease or balloon loan</td><td>+ received</td><td>− paid</td><td>− paid at the end</td></tr>
+    <tr><td>Retirement income from a pot</td><td>− paid in</td><td>+ received</td><td>0, or + if some is left</td></tr>
+  </table></div>
+
+  <h2>Worked examples</h2>
+  <h3>A savings plan</h3>
+  <p>5,000 now plus 100 a month for 10 years, at 0.5% a month. Both go out, so both are negative: PV = −5,000, PMT = −100, N = 120, I/Y = 0.5. The result is FV = +25,484.92, money you collect.</p>
+  <h3>A lump sum</h3>
+  <p>1,000 becomes 2,000 in 10 years. What is the yearly rate? PV = −1,000, FV = +2,000, N = 10, PMT = 0. The result is I/Y = 7.18%.</p>
+  <p>If you enter both as positive, the calculator gives an error. It is telling you the truth: if you receive money at both ends and pay nothing, no interest rate can explain it.</p>
+  <h3>A lease with a residual value</h3>
+  <p>A 30,000 car, leased for 36 months at 0.4% a month, with 18,000 owed at the end. You receive the use of 30,000 now (PV = +30,000), and you owe 18,000 at the end (FV = −18,000). The result is PMT = −430.57 with payments at the end of each month, or −428.86 with payments at the start.</p>
+
+  <h2>Three errors that are really sign errors</h2>
+  <ul>
+    <li><strong>"No solution" when solving for I/Y or N.</strong> Check the signs first. PV, PMT and FV are probably all the same sign. In RPNLog the message reads "Error: no solution for these TVM values".</li>
+    <li><strong>A future value that is too small.</strong> If PV and PMT have opposite signs in a savings problem, the deposit and the contributions partly cancel out, as if you were drawing the money back out. The calculator is answering a different question than the one you meant.</li>
+    <li><strong>A leftover value in a register.</strong> A stale FV from the last problem changes the sign picture without you noticing. Clear the financial registers before you start, or enter 0 for anything you are not using. In RPNLog, CL FIN is the 2nd function above ÷, and all five registers are on screen so you can see what is there.</li>
+  </ul>
+
+  <h2>Two more conventions that catch people out</h2>
+  <p><strong>The rate is per period.</strong> On classic RPN financial calculators, i is the rate for one period and n counts periods. For a monthly loan, divide the yearly rate by 12 and multiply the years by 12. Some other calculators ask for a yearly rate and a payments-per-year setting, so check which kind you are using before copying keystrokes.</p>
+  <p><strong>Solved N is rounded up.</strong> 1,000 at 1% a period paying 30 needs a little over 40 payments, so N shows 41. The last one is smaller.</p>
+
+  <h2>Try it</h2>
+  <p>The free <a href="../tools/tvm-calculator.html">TVM calculator</a> on this site uses this convention and tells you what the sign of the answer means. RPNLog does the same with RPN keystrokes on Android, and its TVM keys are free. Results here are estimates, not financial advice.</p>
+  <div class="card"><strong>RPNLog</strong> is an RPN financial calculator for Android with no ads and no subscription. <a href="https://play.google.com/store/apps/details?id=com.eastframe.rpnlog">Get it on Google Play</a>.</div>
+  <footer>© 2026 Eastframe Technology LLC · <a href="../privacy.html">Privacy policy</a> · <a href="../#support">Support</a></footer>
+</main>
+</body>
+</html>
